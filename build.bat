@@ -1,0 +1,1 @@
+wcl src\tank.c -fo=build\tank.obj -fe=build\tank.exe -fr=build\tank.err
