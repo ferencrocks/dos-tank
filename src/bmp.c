@@ -77,12 +77,10 @@ void BMP_LoadData(BMP *bmp) {
     }
 }
 
-BMP BMP_CopyDataRect(BMP *bmpSrc, word x, word y, word x2, word y2) {
+void BMP_CopyDataRect(BMP *bmpSrc, BMP *bmpDest, word x, word y, word x2, word y2) {
     word h;
     short int rw = x2 - x; // rect width
     short int rh = y2 - y; // rect height
-    BMP bmpDest;
-    BMP_Meta destMeta;
 
     // checks if the requested rectangle is smaller than the whole BMP
     if (rw < 0 || rw > bmpSrc->meta->width) {
@@ -95,30 +93,27 @@ BMP BMP_CopyDataRect(BMP *bmpSrc, word x, word y, word x2, word y2) {
     }
 
     // prepares the destination BMP
-    destMeta.width = rw;
-    destMeta.height = rh;
-    destMeta.palette = bmpSrc->meta->palette;
-    destMeta.colors = bmpSrc->meta->colors;
-    destMeta.fp = NULL; // virtual bitmap, no file assigned
-    bmpDest.meta = &destMeta;
-    bmpDest.data = BMP_allocateDataMem(rw, rh);
+    bmpDest->meta->width = rw;
+    bmpDest->meta->height = rh;
+    bmpDest->meta->palette = bmpSrc->meta->palette;
+    bmpDest->meta->colors = bmpSrc->meta->colors;
+    bmpDest->meta->fp = NULL; // virtual bitmap, no file assigned
+    bmpDest->data = BMP_allocateDataMem(rw, rh);
 
     for (h = 0; h < rh; h++) {
         memcpy(
-            &bmpDest.data[h * rw],
-            &bmpSrc->data[h * bmpSrc->meta->width + x],
+            &bmpDest->data[h * rw],
+            &bmpSrc->data[(y + h) * bmpSrc->meta->width + x],
             rw
         );
     }
-
-    return bmpDest;
 }
 
 void BMP_Render(BMP *bmp, word x, word y) {
     word h, bw, bh;
 
-    bw = min(x + bmp->meta->width, VGA_SCREEN_WIDTH - x - 1);
-    bh = min(y + bmp->meta->height, VGA_SCREEN_HEIGHT - y - 1);
+    bw = bmp->meta->width;
+    bh = bmp->meta->height;
 
     for (h = 0; h < bh; h++) {
         memcpy(

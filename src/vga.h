@@ -15,7 +15,7 @@
 #define PALETTE_DATA        0x3C9
 
 
-byte far *VGA = (byte far *)0xA0000;
+byte *VGA = (byte *)0xA0000;
 
 void VGA_Init(unsigned char mode);
 void VGA_SetBmpPalette(BMP_Meta *meta);

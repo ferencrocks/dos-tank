@@ -22,7 +22,7 @@ typedef struct BMPTag {
 void BMP_LoadMeta(char *file, BMP_Meta *bmp);
 void BMP_FreeMeta(BMP_Meta *meta);
 void BMP_LoadData(BMP *bmp);
-BMP BMP_CopyDataRect(BMP *bmpSrc, word x, word y, word x2, word y2);
+void BMP_CopyDataRect(BMP *bmpSrc, BMP *bmpDest, word x, word y, word x2, word y2);
 void BMP_Render(BMP *bmp, word x, word y);
 
 #endif // BMP_H_INCLUDED
