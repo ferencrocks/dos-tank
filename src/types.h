@@ -14,6 +14,11 @@ typedef struct tagCoord {
     word y;
 } Coord;
 
+typedef struct tagGranularCoord {
+    double x;
+    double y;
+} GranularCoord;
+
 #define DIRECTIONS_COUNT 4
 typedef enum tagDirection {
     DIR_UP = 0,
@@ -24,7 +29,7 @@ typedef enum tagDirection {
 
 // speed measured in tiles/seconds
 typedef struct tagSpeed {
-    word tile;
+    double sprite;
     word sec;
 } Speed;
 

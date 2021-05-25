@@ -10,9 +10,12 @@ typedef void (*GObjRenderer)(struct tagGObj *gObj);
 
 typedef struct tagGObjMotion {
     bool isMoving;
+    Coord start;
     Coord dest;
-    Speed *speed;
+    GranularCoord granularCoord;
+    Speed speed;
     Timer timer;
+    double velocity;
 } GObjMotion;
 
 typedef struct tagGObj {
@@ -34,9 +37,11 @@ typedef struct tagGObj {
 typedef struct tagTankState {
     TankColor color;
     byte size;
-    Speed speed;
 } TankState;
 
+
+void Obj_StartMove(GObj *obj);
+void Obj_Move(GObj *obj);
 
 void Obj_RenderTank(GObj *obj);
 

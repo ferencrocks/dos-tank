@@ -25,20 +25,20 @@ void Game_HandleKeyPressed(word key, GameState *state) {
             break;
 
         case KEY_UP:
-            if (state->player->direction != DIR_UP) {
-                state->player->direction = DIR_UP;
-            } else {
-                state->player->coord.y--;
-            }
+            state->player->direction = DIR_UP;
+            Obj_StartMove(state->player);
             break;
         case KEY_DOWN:
             state->player->direction = DIR_DOWN;
+            Obj_StartMove(state->player);
             break;
         case KEY_LEFT:
             state->player->direction = DIR_LEFT;
+            Obj_StartMove(state->player);
             break;
         case KEY_RIGHT:
             state->player->direction = DIR_RIGHT;
+            Obj_StartMove(state->player);
             break;
     }
 }
@@ -60,6 +60,10 @@ void Game_MainLoop() {
     gObjs[0].state = &tankState;
     gObjs[0].renderer = Obj_RenderTank;
 
+    gObjs[0].canMove = TRUE;
+    gObjs[0].motion.speed.sprite = 1;
+    gObjs[0].motion.speed.sec = 1;
+
     gameState.player = &gObjs[0];
 
 
@@ -77,6 +81,9 @@ void Game_MainLoop() {
         // renders GObjs
         for (i = 0; i < gObjCount; i++) {
             gObjs[i].renderer(&gObjs[i]);
+            if (gObjs[i].canMove) {
+                Obj_Move(&gObjs[i]);
+            }
         }
 
         // printf("%d\n", Timer_ElapsedMs(&timer));
