@@ -7,6 +7,7 @@
 #define VGA_320x200x256     0x13 // 256 colors
 #define VGA_SCREEN_WIDTH    320  // px
 #define VGA_SCREEN_HEIGHT   200 // px
+#define VGA_MEMBLOCK_SIZE   VGA_SCREEN_WIDTH * VGA_SCREEN_HEIGHT // byte
 #define VGA_TEXT            0x03 // text mode
 
 #define PALETTE_MASK        0x3C6

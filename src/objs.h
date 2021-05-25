@@ -8,6 +8,13 @@
 
 typedef void (*GObjRenderer)(struct tagGObj *gObj);
 
+typedef struct tagGObjMotion {
+    bool isMoving;
+    Coord dest;
+    Speed *speed;
+    Timer timer;
+} GObjMotion;
+
 typedef struct tagGObj {
     Coord coord;
     Direction direction;
@@ -23,13 +30,6 @@ typedef struct tagGObj {
     // it receives as argument a pointer to the game object itself
     GObjRenderer renderer;
 } GObj;
-
-typedef struct tagGObjMotion {
-    bool isMoving;
-    Coord dest;
-    Speed *speed;
-    Timer timer;
-} GObjMotion;
 
 typedef struct tagTankState {
     TankColor color;

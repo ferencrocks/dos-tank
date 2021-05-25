@@ -3,6 +3,7 @@
 #include <string.h>
 #include "bmp.h"
 #include "vga.h"
+#include "scrbuf.h"
 
 #define BMP_HEADER_SIZE 14 // bytes
 
@@ -110,17 +111,5 @@ void BMP_CopyDataRect(BMP *bmpSrc, BMP *bmpDest, word x, word y, word x2, word y
 }
 
 void BMP_Render(BMP *bmp, word x, word y) {
-    word h, bw, bh;
-
-    bw = bmp->meta->width;
-    bh = bmp->meta->height;
-
-    for (h = 0; h < bh; h++) {
-        memcpy(
-            &VGA[VGA_SCREEN_WIDTH * (y + h) + x],
-            &bmp->data[h * bmp->meta->width],
-            bw
-        );
-    }
+    ScrBuf_PutPixBuf(bmp->data, x, y, bmp->meta->width, bmp->meta->height);
 }
-

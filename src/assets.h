@@ -5,7 +5,7 @@
 #ifndef ASSETS_H_INCLUDED
 #define ASSETS_H_INCLUDED
 
-#define MAIN_SPRITE_MAP     "w:\\dostank\\build\\sprites.bmp" // TODO: debug with absolute path
+#define MAIN_SPRITE_MAP     "w:\\dos-tank\\build\\sprites.bmp" // TODO: debug with absolute path
 #define SPRITE_WIDTH        16
 #define SPRITE_HEIGHT       16
 

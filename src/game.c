@@ -6,6 +6,7 @@
 #include "assets.h"
 #include "objs.h"
 #include "timer.h"
+#include "scrbuf.h"
 
 
 #define MAX_GOBJS_COUNT 255
@@ -78,7 +79,8 @@ void Game_MainLoop() {
             gObjs[i].renderer(&gObjs[i]);
         }
 
-        printf("%d\n", Timer_ElapsedMs(&timer));
+        // printf("%d\n", Timer_ElapsedMs(&timer));
+        ScrBuf_FlushToVga();
 
     } while(gameState.isRunning == TRUE);
 }
