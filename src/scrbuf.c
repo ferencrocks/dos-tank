@@ -36,9 +36,6 @@ void ScrBuf_Destroy() {
 }
 
 void ScrBuf_FlushToVga() {
-    word i;
-    for (i = 0; i < VGA_MEMBLOCK_SIZE; i++) {
-        VGA[i] = screenBuffer[i];
-        screenBuffer[i] = 0;
-    }
+    memcpy(VGA, screenBuffer, VGA_MEMBLOCK_SIZE);
+    memset(screenBuffer, 0 , VGA_MEMBLOCK_SIZE);
 }

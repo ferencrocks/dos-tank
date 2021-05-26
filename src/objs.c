@@ -1,50 +1,34 @@
-#include <stdio.h>
+#include <stdlib.h>
 #include "objs.h"
-#include "timer.h"
 #include "types.h"
 #include "assets.h"
 
 
-void Obj_StartMove(GObj *obj) {
-    if (obj->canMove) {
-        Timer_Init(&obj->motion.timer);
-        obj->motion.start.x = obj->coord.x;
-        obj->motion.start.y = obj->coord.y;
-        obj->motion.velocity = (obj->motion.speed.sprite * SPRITE_HEIGHT) / (obj->motion.speed.sec * 1000);
-        obj->motion.isMoving = TRUE;
-    }
+void Obj_Destroy(GObj *obj) {
+    free(obj->state);
+    free(obj);
 }
 
-void Obj_Move(GObj *obj) {
-    double mx = 0.0, my = 0.0;
-    double d = 0.0;
+GObj* Obj_NewTank(word x, word y, Direction dir, TankColor color, byte size) {
+    GObj *tank = (GObj *)malloc(sizeof(GObj));
+    TankState *state;
 
-    if (!obj->canMove || !obj->motion.isMoving) {
-        return;
-    }
-    switch (obj->direction)
-    {
-        case DIR_UP:
-            my = -1.0;
-            break;
-        case DIR_DOWN:
-            my = 1.0;
-            break;
-        case DIR_LEFT:
-            mx = -1.0;
-            break;
-        case DIR_RIGHT:
-            mx = 1.0;
-            break;
-    }
-    d = obj->motion.velocity * Timer_ElapsedMs(&obj->motion.timer);
+    // GObj properties
+    tank->coord.x = x;
+    tank->coord.y = y;
+    tank->coordBottomRight.x = x + SPRITE_WIDTH;
+    tank->coordBottomRight.y = y + SPRITE_HEIGHT;
+    tank->direction = dir;
+    tank->renderer = Obj_RenderTank;
+    tank->canMove = TRUE;
+    // state
+    state = (TankState *)malloc(sizeof(TankState));
+    state->color = TANK_PURPLE;
+    state->size = 1;
+    tank->state = state;
 
-    obj->motion.granularCoord.x = (double)obj->motion.start.x + mx * d;
-    obj->motion.granularCoord.y = (double)obj->motion.start.y + my * d;
-    obj->coord.x = (word)(obj->motion.granularCoord.x + 0.5);
-    obj->coord.y = (word)(obj->motion.granularCoord.y + 0.5);
+    return tank;
 }
-
 
 void Obj_RenderTank(GObj *obj) {
     TankState *state = (TankState *)obj->state;

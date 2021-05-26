@@ -1,3 +1,4 @@
+#include "types.h"
 #include "assets.h"
 #include "timer.h"
 
@@ -18,8 +19,11 @@ typedef struct tagGObjMotion {
     double velocity;
 } GObjMotion;
 
+
 typedef struct tagGObj {
-    Coord coord;
+    Coord coord; // top-left
+    Coord coordBottomRight;
+
     Direction direction;
     bool killable;
     byte animFrame;
@@ -40,9 +44,13 @@ typedef struct tagTankState {
 } TankState;
 
 
+void Obj_SetSpeed(GObj *obj, double sprite, word sec);
+
+GObj* Obj_NewTank(word x, word y, TankColor color, byte size);
+void Obj_RenderTank(GObj *obj);
+
 void Obj_StartMove(GObj *obj);
 void Obj_Move(GObj *obj);
-
-void Obj_RenderTank(GObj *obj);
+void Obj_Destroy(GObj *obj);
 
 #endif // OBJS_H_INCLUDED

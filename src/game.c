@@ -45,29 +45,15 @@ void Game_HandleKeyPressed(word key, GameState *state) {
 
 void Game_MainLoop() {
     GameState gameState;
-    TankState tankState;
     word keyPressed = 0;
-    GObj gObjs[MAX_GOBJS_COUNT];
+    GObj *gObjs[MAX_GOBJS_COUNT];
     byte gObjCount = 1, i;
     Timer timer;
 
-    tankState.color = TANK_PURPLE;
-    tankState.size = 1;
+    gObjs[0] = Obj_NewTank(50, 50, DIR_UP, TANK_GREEN, 1);
+    Obj_SetSpeed(gObjs[0], 1.25, 1);
 
-    gObjs[0].coord.x = 100;
-    gObjs[0].coord.y = 100;
-    gObjs[0].direction = DIR_UP;
-    gObjs[0].state = &tankState;
-    gObjs[0].renderer = Obj_RenderTank;
-
-    gObjs[0].canMove = TRUE;
-    gObjs[0].motion.speed.sprite = 1;
-    gObjs[0].motion.speed.sec = 1;
-
-    gameState.player = &gObjs[0];
-
-
-
+    gameState.player = gObjs[0];
     gameState.isRunning = TRUE;
     gameState.isPaused = FALSE;
 
@@ -80,9 +66,9 @@ void Game_MainLoop() {
 
         // renders GObjs
         for (i = 0; i < gObjCount; i++) {
-            gObjs[i].renderer(&gObjs[i]);
-            if (gObjs[i].canMove) {
-                Obj_Move(&gObjs[i]);
+            gObjs[i]->renderer(gObjs[i]);
+            if (gObjs[i]->canMove) {
+                Obj_Move(gObjs[i]);
             }
         }
 
@@ -90,4 +76,13 @@ void Game_MainLoop() {
         ScrBuf_FlushToVga();
 
     } while(gameState.isRunning == TRUE);
+
+    for (i = 0; i < gObjCount; i++) {
+        
+        gObjs[i]->renderer(gObjs[i]);
+        if (gObjs[i]->canMove) {
+            Obj_Move(gObjs[i]);
+        }
+    }
+
 }
