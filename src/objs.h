@@ -6,6 +6,8 @@
 #ifndef OBJS_H_INCLUDED
 #define OBJS_H_INCLUDED
 
+#define OBJ_MVMT_UNIT   SPRITE_WIDTH / 2;
+
 
 typedef void (*GObjRenderer)(struct tagGObj *gObj);
 
@@ -45,8 +47,10 @@ typedef struct tagTankState {
 
 
 void Obj_SetSpeed(GObj *obj, double sprite, word sec);
+bool Obj_SetDirection(GObj *obj, Direction dir);
+bool Obj_didArriveToDestination(GObj *obj);
 
-GObj* Obj_NewTank(word x, word y, TankColor color, byte size);
+GObj* Obj_NewTank(word x, word y, Direction dir, TankColor color, byte size);
 void Obj_RenderTank(GObj *obj);
 
 void Obj_StartMove(GObj *obj);

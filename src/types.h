@@ -27,10 +27,18 @@ typedef enum tagDirection {
     DIR_RIGHT = 3
 } Direction;
 
+typedef struct tagDirectionVector {
+    signed char x;
+    signed char y;
+} DirectionVector;
+
 // speed measured in tiles/seconds
 typedef struct tagSpeed {
     double sprite;
     word sec;
 } Speed;
+
+
+DirectionVector Type_DirToVect(Direction dir);
 
 #endif // TYPES_H_INCLUDED

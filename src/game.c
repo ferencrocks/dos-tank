@@ -19,28 +19,28 @@ typedef struct tagGameState {
 
 
 void Game_HandleKeyPressed(word key, GameState *state) {
+    bool directionChanged;
+
     switch (key) {
         case KEY_ESC:
             state->isRunning = FALSE;
             break;
 
         case KEY_UP:
-            state->player->direction = DIR_UP;
-            Obj_StartMove(state->player);
+            directionChanged = Obj_SetDirection(state->player, DIR_UP);
             break;
         case KEY_DOWN:
-            state->player->direction = DIR_DOWN;
-            Obj_StartMove(state->player);
+            directionChanged = Obj_SetDirection(state->player, DIR_DOWN);
             break;
         case KEY_LEFT:
-            state->player->direction = DIR_LEFT;
-            Obj_StartMove(state->player);
+            directionChanged = Obj_SetDirection(state->player, DIR_LEFT);
             break;
         case KEY_RIGHT:
-            state->player->direction = DIR_RIGHT;
-            Obj_StartMove(state->player);
+            directionChanged = Obj_SetDirection(state->player, DIR_RIGHT);
             break;
     }
+
+    Obj_StartMove(state->player);
 }
 
 void Game_MainLoop() {
